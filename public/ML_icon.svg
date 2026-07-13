@@ -1,0 +1,46 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1224"/>
+      <stop offset="55%" stop-color="#101b3d"/>
+      <stop offset="100%" stop-color="#1c2f6b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
+      <stop offset="0%" stop-color="#3b5bdb" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#3b5bdb" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#glow)"/>
+
+  <!-- faint dot grid texture -->
+  <g fill="#ffffff" opacity="0.05">
+    <circle cx="70" cy="70" r="4"/><circle cx="110" cy="70" r="4"/><circle cx="150" cy="70" r="4"/>
+    <circle cx="70" cy="110" r="4"/><circle cx="70" cy="150" r="4"/>
+    <circle cx="362" cy="442" r="4"/><circle cx="402" cy="442" r="4"/><circle cx="442" cy="442" r="4"/>
+    <circle cx="442" cy="402" r="4"/><circle cx="442" cy="362" r="4"/>
+  </g>
+
+  <!-- corner circuit accents -->
+  <g stroke="url(#accent)" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55">
+    <path d="M 56 130 L 56 90 L 96 90"/>
+    <path d="M 456 382 L 456 422 L 416 422"/>
+  </g>
+  <circle cx="96" cy="90" r="6" fill="#22d3ee" opacity="0.8"/>
+  <circle cx="416" cy="422" r="6" fill="#818cf8" opacity="0.8"/>
+
+  <!-- monogram: <ML/> styled like a code tag -->
+  <text x="256" y="300" font-family="'JetBrains Mono','Fira Code','Courier New',monospace"
+        font-size="132" font-weight="700" text-anchor="middle">
+    <tspan fill="url(#accent)">&lt;</tspan><tspan fill="#f8fafc">ML</tspan><tspan fill="url(#accent)">/&gt;</tspan>
+  </text>
+
+  <!-- underline cursor accent -->
+  <rect x="176" y="330" width="160" height="8" rx="4" fill="url(#accent)" opacity="0.8"/>
+</svg>

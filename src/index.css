@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050508;
+  --color-foreground: #f3f4f6;
+  --color-accent: #1ba098;
+  
+  --font-sans: 'DM Sans', sans-serif;
+  --font-display: 'Fraunces', serif;
+  
+  --text-hero-xl: 5.5rem;
+  --text-section-heading: 2.5rem;
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050508;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(27, 160, 152, 0.2);
+  border-radius: 5px;
+  border: 2px solid #050508;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(27, 160, 152, 0.5);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(27, 160, 152, 0.2) #050508;
+}
+
+/* Custom CSS Utility Classes */
+
+.grid-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.glass-card {
+  background: rgba(12, 12, 18, 0.45);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.gradient-text-accent {
+  background: linear-gradient(90deg, #1ba098 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-primary {
+  display: inline-block;
+  background: #1ba098;
+  color: #050508;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.cta-primary:hover {
+  background: #25c0b6;
+  box-shadow: 0 0 15px rgba(27, 160, 152, 0.4);
+  transform: translateY(-2px);
+}
+
+.cta-secondary {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f3f4f6;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cta-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-2px);
+}
+
+.skill-tag {
+  background: rgba(27, 160, 152, 0.08);
+  border: 1px solid rgba(27, 160, 152, 0.18);
+  color: #22d3ee;
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.skill-tag-muted {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #9ca3af;
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1ba098;
+  box-shadow: 0 0 10px rgba(27, 160, 152, 0.6);
+  z-index: 5;
+}
+
+.timeline-line {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-anim {
+  animation: float 6s ease-in-out infinite;
+}
+
+.float-anim-slow {
+  animation: float 9s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(27, 160, 152, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(27, 160, 152, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(27, 160, 152, 0); }
+}
+
+/* Background Blobs */
+.blob-teal {
+  background: radial-gradient(circle, rgba(27, 160, 152, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+}
+
+.blob-navy {
+  background: radial-gradient(circle, rgba(15, 76, 117, 0.12) 0%, transparent 70%);
+  filter: blur(90px);
+}
+
+/* Bento Card Overlay */
+.project-card-overlay {
+  background: linear-gradient(to top, rgba(3, 3, 6, 0.94) 0%, rgba(3, 3, 6, 0.4) 60%, rgba(3, 3, 6, 0.1) 100%);
+}
+
+.shimmer-hover {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+}
+
+.shimmer-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(27, 160, 152, 0.25);
+}
