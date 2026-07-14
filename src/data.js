@@ -115,14 +115,14 @@ export const developerData = {
       id: 'ai_architecture',
       label: 'AI & Architecture',
       icon: 'CpuChipIcon',
-      tags: ['LLM Integration (Groq, OpenAI)', 'AI Agent Orchestration', 'RESTful API Design', 'Microservices Architecture', 'OOP'],
+      tags: ['LLM Integration (Groq, OpenAI)', 'AI Agent Orchestration', 'RESTful API Design', 'Microservices Architecture', 'OOP', 'Data Structures & Algorithms'],
       accent: false,
     },
     {
       id: 'tools_testing',
       label: 'DevOps, Tools & Testing',
       icon: 'WrenchScrewdriverIcon',
-      tags: ['Docker', 'Git & GitHub', 'Stripe API Integration', 'xUnit Unit Testing'],
+      tags: ['Docker', 'Git & GitHub', 'CI/CD', 'Stripe API Integration', 'xUnit Unit Testing'],
       accent: false,
       colSpan: 'col-span-3', // mapped in CSS
     },

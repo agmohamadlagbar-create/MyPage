@@ -101,7 +101,7 @@ export default function HeroSection() {
 
         {/* Massive hero typography */}
         <div className="mb-6">
-          <h1 className="fade-in-up font-display text-hero-xl font-bold text-foreground leading-none tracking-tight">
+          <h1 className="fade-in-up font-display text-5xl sm:text-6xl md:text-7xl lg:text-hero-xl font-bold text-foreground leading-none tracking-tight">
             <span className="block">MOHAMAD</span>
             <span
               className="block gradient-text-accent"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import FrameCanvas from "./components/FrameCanvas";
 import { developerData } from "./data";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import HeroSection from "./components/HeroSection";
 import ProjectsSection from "./components/ProjectsSection";
 import SkillsSection from "./components/SkillsSection";
@@ -14,6 +14,7 @@ export default function App() {
   const [loadingPct, setLoadingPct] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Initializing workspace...");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollTrackRef = useRef(null);
 
@@ -90,21 +91,73 @@ export default function App() {
     <div className="portfolio-app font-sans bg-background text-foreground selection:bg-accent/30 selection:text-foreground">
       {/* Dynamic Header */}
       {!isLoading && (
-        <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-card-light py-4 px-6 md:px-12 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/ML_icon.svg" alt="ML Logo" className="w-6 h-6 object-contain" />
-            <span className="font-display font-bold text-lg tracking-wider text-foreground">
-              ML
-            </span>
-          </div>
-          <nav className="flex gap-6 text-sm font-medium text-muted-foreground">
-            <a href="#home" className="hover:text-accent transition-colors duration-200">Home</a>
-            <a href="#projects" className="hover:text-accent transition-colors duration-200">Work</a>
-            <a href="#skills" className="hover:text-accent transition-colors duration-200">Stack</a>
-            <a href="#experience" className="hover:text-accent transition-colors duration-200">History</a>
-            <a href="#contact" className="hover:text-accent transition-colors duration-200">Contact</a>
-          </nav>
-        </header>
+        <>
+          <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-card-light py-4 px-6 md:px-12 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <img src="/ML_icon.svg" alt="ML Logo" className="w-6 h-6 object-contain" />
+              <span className="font-display font-bold text-lg tracking-wider text-foreground">
+                ML
+              </span>
+            </div>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
+              <a href="#home" className="hover:text-accent transition-colors duration-200">Home</a>
+              <a href="#projects" className="hover:text-accent transition-colors duration-200">Work</a>
+              <a href="#skills" className="hover:text-accent transition-colors duration-200">Stack</a>
+              <a href="#experience" className="hover:text-accent transition-colors duration-200">History</a>
+              <a href="#contact" className="hover:text-accent transition-colors duration-200">Contact</a>
+            </nav>
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-foreground hover:text-accent transition-colors focus:outline-none z-50 cursor-pointer"
+              aria-label="Toggle Menu"
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </header>
+
+          {/* Mobile Menu Overlay */}
+          {mobileMenuOpen && (
+            <div className="fixed inset-0 z-40 bg-[#050508]/98 backdrop-blur-xl md:hidden flex flex-col justify-center items-center gap-8 text-xl font-semibold transition-all duration-300">
+              <a 
+                href="#home" 
+                className="text-foreground/80 hover:text-accent transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </a>
+              <a 
+                href="#projects" 
+                className="text-foreground/80 hover:text-accent transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Work
+              </a>
+              <a 
+                href="#skills" 
+                className="text-foreground/80 hover:text-accent transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Stack
+              </a>
+              <a 
+                href="#experience" 
+                className="text-foreground/80 hover:text-accent transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                History
+              </a>
+              <a 
+                href="#contact" 
+                className="text-foreground/80 hover:text-accent transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </a>
+            </div>
+          )}
+        </>
       )}
 
       {/* 1. Preloader Overlay */}
