@@ -25,7 +25,9 @@ const socialLinks = [
 export default function ContactSection() {
   const sectionRef = useRef(null);
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,9 +50,65 @@ export default function ContactSection() {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = (e) => {
+  const openMailto = () => {
+    const subject = encodeURIComponent(`Portfolio Message from ${formState.name || 'Visitor'}`);
+    const body = encodeURIComponent(
+      `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`
+    );
+    window.location.href = `mailto:ag.mohamadlagbar@gmail.com?subject=${subject}&body=${body}`;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setErrorMsg('');
+    setLoading(true);
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    // If no access key is configured, fall back to mailto client directly
+    if (!accessKey) {
+      openMailto();
+      setSubmitted(true);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formState.name.trim(),
+          email: formState.email.trim(),
+          message: formState.message.trim(),
+          subject: `New Portfolio Message from ${formState.name.trim()}`,
+          from_name: formState.name.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg(data.message || 'Something went wrong. Please try again or send via email directly.');
+      }
+    } catch (err) {
+      console.error('Failed to submit form:', err);
+      setErrorMsg('Failed to send message due to network error. You can click below to send via your email client.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setFormState({ name: '', email: '', message: '' });
+    setSubmitted(false);
+    setErrorMsg('');
   };
 
   return (
@@ -131,7 +189,7 @@ export default function ContactSection() {
           >
             <div className="glass-card rounded-2xl p-8">
               {submitted ? (
-                <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
+                <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
                   <div className="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center">
                     <Icon name="CheckIcon" size={28} className="text-accent" />
                   </div>
@@ -139,6 +197,13 @@ export default function ContactSection() {
                   <p className="text-muted-foreground text-sm max-w-xs">
                     Thanks for reaching out. I'll get back to you within 24 hours.
                   </p>
+                  <button
+                    onClick={handleReset}
+                    className="mt-4 text-xs font-semibold text-accent hover:underline flex items-center gap-2 cursor-pointer"
+                  >
+                    <Icon name="ArrowPathIcon" size={14} />
+                    Send another message
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -151,10 +216,11 @@ export default function ContactSection() {
                         id="name"
                         type="text"
                         required
+                        disabled={loading}
                         placeholder="Your name"
                         value={formState.name}
                         onChange={(e) => setFormState((p) => ({ ...p, name: e.target.value }))}
-                        className="bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200"
+                        className="bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -165,10 +231,11 @@ export default function ContactSection() {
                         id="email"
                         type="email"
                         required
+                        disabled={loading}
                         placeholder="your@email.com"
                         value={formState.email}
                         onChange={(e) => setFormState((p) => ({ ...p, email: e.target.value }))}
-                        className="bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200"
+                        className="bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50"
                       />
                     </div>
                   </div>
@@ -179,15 +246,47 @@ export default function ContactSection() {
                     <textarea
                       id="message"
                       required
+                      disabled={loading}
                       rows={5}
                       placeholder="Tell me about your project, role, or just say hi..."
                       value={formState.message}
                       onChange={(e) => setFormState((p) => ({ ...p, message: e.target.value }))}
-                      className="bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200 resize-none"
+                      className="bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-all duration-200 resize-none disabled:opacity-50"
                     />
                   </div>
-                  <button type="submit" className="cta-primary w-full">
-                    Send Message
+
+                  {errorMsg && (
+                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <Icon name="ExclamationTriangleIcon" size={16} className="text-red-400 shrink-0" />
+                        <span>{errorMsg}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={openMailto}
+                        className="self-start text-accent underline hover:text-accent/80 font-medium cursor-pointer"
+                      >
+                        Click here to send directly via Email App
+                      </button>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="cta-primary w-full flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <>
+                        <Icon name="ArrowPathIcon" size={18} className="animate-spin" />
+                        Sending Message...
+                      </>
+                    ) : (
+                      <>
+                        <Icon name="PaperAirplaneIcon" size={18} />
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               )}
